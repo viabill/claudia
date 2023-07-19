@@ -73,7 +73,7 @@ module.exports = function collectFiles(sourcePath, workingDir, options, optional
 				fsUtil.copy(path.join(sourcePath, 'node_modules'), targetDir);
 				return Promise.resolve(targetDir);
 			} else {
-				return runNpm(targetDir, ['install',  '-q', '--no-audit', '--production'].concat(npmOptions), logger, runQuietly);
+				return runNpm(targetDir, ['install',  '-q', '--no-audit', '--omit=dev'].concat(npmOptions), logger, runQuietly);
 			}
 		},
 		isRelativeDependency = function (dependency) {

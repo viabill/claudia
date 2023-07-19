@@ -310,7 +310,7 @@ describe('collectFiles', () => {
 					'minimist': '^1.2.0'
 				}
 			});
-			underTest(sourcedir, workingdir, {'npm-options': '--no-optional'})
+			underTest(sourcedir, workingdir, {'npm-options': '--omit=optional'})
 			.then(packagePath => {
 				expect(fsUtil.fileExists(path.join(packagePath, 'node_modules', 'uuid'))).toBeTruthy();
 				expect(fsUtil.fileExists(path.join(packagePath, 'node_modules', 'minimist'))).toBeFalsy();
@@ -381,7 +381,7 @@ describe('collectFiles', () => {
 			});
 			underTest(sourcedir, workingdir)
 			.then(done.fail, reason => {
-				expect(reason).toMatch(/npm install -q --no-audit --production failed/);
+				expect(reason).toMatch(/npm install -q --no-audit --omit=dev failed/);
 				done();
 			});
 		});
@@ -721,7 +721,7 @@ describe('collectFiles', () => {
 			expect(logger.getCombinedLog()).toEqual([
 				['stage', 'packaging files'],
 				['call', `npm pack -q ${sourcedir}`],
-				['call', 'npm install -q --no-audit --production']
+				['call', 'npm install -q --no-audit --omit=dev']
 			]);
 		})
 		.then(done, done.fail);

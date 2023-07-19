@@ -99,7 +99,7 @@ describe('cleanUpPackage', () => {
 		});
 		underTest(sourcedir, { 'optional-dependencies': false }, logger)
 		.then(done.fail, reason => {
-			expect(reason).toMatch(/npm install -q --no-package-lock --no-audit --production --no-optional failed/);
+			expect(reason).toMatch(/npm install -q --no-package-lock --no-audit --omit=dev --no-optional failed/);
 			done();
 		});
 	});
@@ -109,8 +109,8 @@ describe('cleanUpPackage', () => {
 		.then(() => {
 			expect(logger.getCombinedLog()).toEqual([
 				['call', 'removing optional dependencies'],
-				['call', 'npm install -q --no-package-lock --no-audit --production --no-optional --dry-run'],
-				['call', 'npm dedupe -q --no-package-lock --production --no-optional --dry-run']
+				['call', 'npm install -q --no-package-lock --no-audit --omit=dev --no-optional --dry-run'],
+				['call', 'npm dedupe -q --no-package-lock --omit=dev --no-optional --dry-run']
 			]);
 		})
 		.then(done, done.fail);

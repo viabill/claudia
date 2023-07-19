@@ -7,7 +7,7 @@ module.exports = function cleanUpPackage(packageDir, options, logger) {
 	const npmOptions = (options && options['npm-options']) ? options['npm-options'].split(' ') : [],
 		dedupe = function () {
 			return options['optional-dependencies'] === false
-				? runNpm(packageDir, ['dedupe', '-q', '--no-package-lock', '--production', '--no-optional'].concat(npmOptions), logger, true)
+				? runNpm(packageDir, ['dedupe', '-q', '--no-package-lock', '--omit=dev', '--omit=optional'].concat(npmOptions), logger, true)
 				: runNpm(packageDir, ['dedupe', '-q', '--no-package-lock'].concat(npmOptions), logger, true);
 		},
 		runPostPackageScript = function () {
@@ -34,7 +34,7 @@ module.exports = function cleanUpPackage(packageDir, options, logger) {
 			if (options['optional-dependencies'] === false) {
 				logger.logApiCall('removing optional dependencies');
 				fsUtil.rmDir(path.join(packageDir, 'node_modules'));
-				return runNpm(packageDir, ['install', '-q', '--no-package-lock', '--no-audit', '--production', '--no-optional'].concat(npmOptions), logger, options && options.quiet);
+				return runNpm(packageDir, ['install', '-q', '--no-package-lock', '--no-audit', '--omit=dev', '--omit=optional'].concat(npmOptions), logger, options && options.quiet);
 			}
 		};
 	return Promise.resolve()
